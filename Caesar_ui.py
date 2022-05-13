@@ -1,6 +1,5 @@
-from PyQt5.QtCore import QRect, QSize, Qt
 from PyQt5.QtGui import QFont, QIcon
-from PyQt5.QtWidgets import QComboBox, QTextEdit, QLineEdit, QSpinBox, QHBoxLayout, QPushButton, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QComboBox, QTextEdit, QSpinBox, QHBoxLayout, QPushButton, QVBoxLayout, QWidget
 
 class Caesar_ui:
     def setup_UI(self):
@@ -8,7 +7,7 @@ class Caesar_ui:
         ### Main ###
         self.setWindowTitle("Шифр Цезаря")
         self.setWindowIcon(QIcon('assets/icon.png'))
-        self.setGeometry(600,100,1080,720)
+        self.setGeometry(400,100,1080,720)
 
         ### Widgets ###
         self.central = QWidget(self)
@@ -32,6 +31,13 @@ class Caesar_ui:
         self.spin_offset.setMaximum(26)
         self.spin_offset.setValue(1)
 
+        self.textEdit_Log = QTextEdit()
+        self.textEdit_Log.setReadOnly(True)
+        self.textEdit_Log.setMaximumWidth(350)
+
+        self.btn_clearLog = QPushButton('Очистить')
+        self.btn_clearLog.clicked.connect(self.onClearLog)
+
         ### Layouts ###
 
         self.lo1 = QVBoxLayout()
@@ -45,8 +51,19 @@ class Caesar_ui:
         self.lo3 = QHBoxLayout()
         self.lo3.addWidget(self.textEdit_Output)
 
-        self.gen_lo1 = QVBoxLayout()
-        self.gen_lo1.addLayout(self.lo1)
-        self.gen_lo1.addLayout(self.lo2)
-        self.gen_lo1.addLayout(self.lo3)
-        self.central.setLayout(self.gen_lo1)
+
+        self.lo_translate = QVBoxLayout()
+        self.lo_translate.addLayout(self.lo1)
+        self.lo_translate.addLayout(self.lo2)
+        self.lo_translate.addLayout(self.lo3)
+
+        self.lo_log = QVBoxLayout()
+        self.lo_log.addWidget(self.textEdit_Log)
+        self.lo_log.addWidget(self.btn_clearLog)
+
+        # Основной LO #
+        self.gen_lo = QHBoxLayout()
+        self.gen_lo.addLayout(self.lo_translate)
+        self.gen_lo.addLayout(self.lo_log)
+
+        self.central.setLayout(self.gen_lo)
